@@ -17,14 +17,16 @@
       <Reference ReferenceType="HasComponent">ns=1;i=2002</Reference>
     </References>
   </UAObjectType>
-  <UAVariable BrowseName="2:Caudal" DataType="Float" NodeId="ns=1;i=2002" ParentNodeId="ns=1;i=2001">
-    <DisplayName>Caudal</DisplayName>
-    <Description>Caudal</Description>
+  <UAVariable BrowseName="2:Caudalimetro" DataType="Float" NodeId="ns=1;i=2002" ParentNodeId="ns=1;i=2001">
+    <DisplayName>Caudalimetro</DisplayName>
+    <Description>Caudalimetro</Description>
     <References>
       <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=2001</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
       <Reference ReferenceType="HasModellingRule">i=78</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=5001</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=5002</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=5003</Reference>
     </References>
     <Value>
       <Double>0.0</Double>
@@ -42,24 +44,22 @@
       <uax:String>m3/s</uax:String>
     </Value>
   </UAVariable>
-  <UAVariable BrowseName="2:Estado" DataType="String" NodeId="ns=1;i=2003" ParentNodeId="ns=1;i=2001">
+  <UAVariable BrowseName="2:Estado" DataType="String" NodeId="ns=1;i=5002" ParentNodeId="ns=1;i=2002">
     <DisplayName>Estado</DisplayName>
     <Description>Estado del caudalimetro</Description>
     <References>
-      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=2001</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
       <Reference ReferenceType="HasModellingRule">i=78</Reference>
     </References>
     <Value>
       <uax:String>Nan</uax:String>
     </Value>
   </UAVariable>
-  <UAVariable BrowseName="2:Fecha" DataType="DateTime" NodeId="ns=1;i=2004" ParentNodeId="ns=1;i=2001">
+  <UAVariable BrowseName="2:Fecha" DataType="DateTime" NodeId="ns=1;i=5003" ParentNodeId="ns=1;i=2002">
     <DisplayName>Fecha</DisplayName>
     <Description>Fecha actual</Description>
     <References>
-      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=2001</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
       <Reference ReferenceType="HasModellingRule">i=78</Reference>
     </References>
     <Value>

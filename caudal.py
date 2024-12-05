@@ -4,40 +4,68 @@ from asyncua.sync import Server
 from asyncua.sync import Client
 from datetime import datetime
 
+#Autor: Carlos Mira Lopez
 
+#---- Metodos de conexion cliente ------#
 
-##METODOS PARA CONECTARSE CON EL CLIENTE - OPTIMIZADO
-def conectar_cliente():
+#Metodo al que le pasamos la URL del cliente para establecer la conexion
+def conectar_cliente(url):
 	# Creamos la conexion al cliente
-	cliente_horas = Client("opc.tcp://0.0.0.0:4840/achu/horas")
+	cliente_horas = Client(url)
 	#Realizamos la conexion
 	cliente_horas.connect()
 	return cliente_horas
 
-def obtener_nodo(cliente):
-	#Nodo de las horas
-	node_id = "ns=2;i=2"
-	#Obtener el nodo
-	node = cliente.get_node(node_id)
-	return node,node_id
+#Metodo que hace la configuracion final, la conexion con el cliene
+# y obtener el nodo para poder acceder a la variable de las horas del server
+def configurar_cliente(url,node_id):
+	cliente_horas = conectar_cliente(url)
+	node = cliente_horas.get_node(node_id)
+	#node, nodo_id = obtener_nodo(cliente_horas,"ns=2;i=2")
+	return node
 
-def configurar_cliente():
-	cliente_horas = conectar_cliente()
-	node, nodo_id = obtener_nodo(cliente_horas)
+
+'''
+def obtener_nodo(cliente,node_id):
+	#Obtener el nodo
+	pass
+	#return node,node_id
+
+def configurar_cliente(url,node_id):
+	cliente_horas = conectar_cliente(url)
+	node = cliente_horas.get_node(node_id)
+	node, nodo_id = obtener_nodo(cliente_horas,"ns=2;i=2")
 	return cliente_horas,node,nodo_id
 
+'''
 
-#METODOS PARA CREAR EL SERVER
-def crear_server():
+
+
+#---- Metodos de creación del server ------#
+
+#Este metodo crear un servidor en la url pasada a la funcion, e importa
+# el tipo de datos Caudalimetro que le pasamos en la ruta
+def crear_server(url,ruta_xml):
 	servidor= Server()
-	servidor.set_endpoint(("opc.tcp://0.0.0.0:4842/achu/embalse"))
-	return servidor
+	servidor.set_endpoint((url))
+	servidor.import_xml(ruta_xml)
+	idx = crear_namespace(servidor)
+	return servidor,idx
 
-def anadir_namespace(servidor):
+#Este metodo crea el objeto, del tipo importado en el xml y nos lo devuelve
+def crear_objeto(servidor, idx):
+	my_object_type = servidor.get_node("ns=1;i=2001") 
+	my_obj = servidor.nodes.objects.add_object(idx, "Embalse", my_object_type)
+	return my_obj
+
+#Este metodo nos registra un namspace con una URI personal
+def crear_namespace(servidor):
 	uri="http://www.achu.es/embalse"
 	idx=servidor.register_namespace(uri)
 	return idx
 
+
+'''
 def anadir_tipo(servidor,idx,tipo):
 	return servidor.nodes.base_object_type.add_object_type(idx,tipo)
 
@@ -49,7 +77,7 @@ def anadir_variable(mi_obj,idx,nombre,tipo):
 	var.set_writable()
 	return var
 
-def conectar_server():
+def conectar_server(url, ruta_xml):
 	servidor = crear_server()
 
 	idx = anadir_namespace(servidor)
@@ -72,6 +100,7 @@ def conectar_server():
 
 	estado = anadir_variable(mi_obj,idx,"estado","estado")
 	return servidor,idx,mi_obj,caudal,hora,estado
+'''
 
 #Metodo para cargar el CSV
 def cargar_csv():
@@ -83,13 +112,18 @@ def cargar_csv():
 def Proceso():
 	#Creamos y arrancamos sel server 
 	#servidor,idx,mi_obj,caudal,hora,estado = conectar_server()
-	servidor = crear_server()
-	servidor.import_xml("nodes.xml")
-	idx = anadir_namespace(servidor)
 	
-	types = servidor.get_node()
-	obj = servidor.nodes.objects.add_object(idx,"Embalse","Caudalimetro")
+	
+	#Creamos el servidor y lo arrancamos
+	print("Configurando servidor")
+	#Creamos el servidor
+	servidor,idx = crear_server("opc.tcp://0.0.0.0:4842/achu/embalse","nodes_caudal.xml")
+	#Creamos el objeto
+	my_obj = crear_objeto(servidor,idx)
+	#Arrancamos el servidor
 	servidor.start()
+	print("Servidor arrancado correctamente")
+
 
 	'''
 	hora = servidor.get_node("ns=1;i=2004")
@@ -98,8 +132,8 @@ def Proceso():
 	'''
 	
 	#Configuramos la conexion con el cliente y obtenemos el nodo y el nodo id
-	cliente_horas,node,node_id = configurar_cliente()
-
+	#cliente_horas,node,node_id = configurar_cliente("opc.tcp://0.0.0.0:4840/achu/horas","ns=2;i=2")
+	node = configurar_cliente("opc.tcp://0.0.0.0:4840/achu/horas","ns=2;i=2")
 	#Cargar excel en codigo y lo transformamos a diccionario para acceder mas rapido
 	file = cargar_csv()
 	
