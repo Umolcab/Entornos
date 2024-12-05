@@ -10,28 +10,28 @@
     <Alias Alias="HasSubtype">i=45</Alias>
     <Alias Alias="HasComponent">i=47</Alias>
   </Aliases>
-  <UAObjectType BrowseName="1:Pluviometro" NodeId="ns=1;i=2001">
-    <DisplayName>Pluviometro</DisplayName>
-    <Description>Pluviometro</Description>
+  <UAObjectType BrowseName="1:Temporal" NodeId="ns=1;i=2001">
+    <DisplayName>Temporal</DisplayName>
+    <Description>Temporal</Description>
     <References>
       <Reference IsForward="false" ReferenceType="HasSubtype">i=58</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=2002</Reference>
     </References>
   </UAObjectType>
-  <UAVariable BrowseName="1:Precipitacion" DataType="Float" NodeId="ns=1;i=2002" ParentNodeId="ns=1;i=2001">
-    <DisplayName>Precipitacion</DisplayName>
-    <Description>Precipitacion</Description>
+  <UAVariable BrowseName="1:Fecha_y_hora" DataType="DateTime" NodeId="ns=1;i=2002" ParentNodeId="ns=1;i=2001">
+    <DisplayName>Fecha_y_hora</DisplayName>
+    <Description>Fecha_y_hora</Description>
     <References>
       <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=2001</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
       <Reference ReferenceType="HasModellingRule">i=78</Reference>
-      <Reference ReferenceType="HasComponent">i=5001</Reference>
+      <!--<Reference ReferenceType="HasComponent">i=5001</Reference>-->
     </References>
     <Value>
-      <uax:Float>0.0</uax:Float>
+      <uax:DateTime>2024-10-28T10:20:00</uax:DateTime>
     </Value>
   </UAVariable>
-  <UAVariable BrowseName="1:EngineeringUnits" DataType="uax:String" NodeId="ns=1;i=5001" ParentNodeId="ns=1;i=2002">
+  <!--<UAVariable BrowseName="1:EngineeringUnits" DataType="String" NodeId="ns=1;i=5001" ParentNodeId="ns=1;i=2002">
       <DisplayName>EngineeringUnits</DisplayName>
       <Description>Unit of measurement</Description>
       <References>
@@ -42,7 +42,7 @@
         <uax:String>mm/h</uax:String>
       </Value>
     </UAVariable>
-  <!--<UAVariable BrowseName="2:Caudal" DataType="Float" NodeId="ns=1;i=2003" ParentNodeId="ns=1;i=2001">
+  <UAVariable BrowseName="2:Caudal" DataType="Float" NodeId="ns=1;i=2003" ParentNodeId="ns=1;i=2001">
     <DisplayName>Caudal</DisplayName>
     <Description>Caudal</Description>
     <References>
