@@ -18,8 +18,8 @@ if __name__ == "__main__":
         while True:
             hora += timedelta(minutes=5.0)
             var_horas.write_value(hora)
-            time.sleep(1)
-            if hora == datetime(2024, 11, 1, 10, 25, 00):
+            time.sleep(0.4)
+            if hora == datetime(2024, 10, 30, 00, 25, 00):
                 break
 
     finally:

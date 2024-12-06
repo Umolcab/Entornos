@@ -54,7 +54,7 @@
       <Reference ReferenceType="HasModellingRule">i=78</Reference>
     </References> 
     <Value>
-      <uax:DateTime></uax:DateTime>
+      <uax:DateTime>2024-12-06T14:30:00Z</uax:DateTime>
     </Value>
   </UAVariable>
 
