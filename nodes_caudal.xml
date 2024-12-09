@@ -1,0 +1,69 @@
+<UANodeSet xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <NamespaceUris>
+    <Uri>urn:freeopcua:python:server</Uri>
+  </NamespaceUris>
+  <Aliases>
+    <Alias Alias="HasModellingRule">i=37</Alias>
+    <Alias Alias="Float">i=10</Alias>
+    <Alias Alias="HasTypeDefinition">i=40</Alias>
+    <Alias Alias="HasSubtype">i=45</Alias>
+    <Alias Alias="HasComponent">i=47</Alias>
+  </Aliases>
+  <UAObjectType BrowseName="2:Caudalimetro" NodeId="ns=1;i=2001">
+    <DisplayName>Caudalimetro</DisplayName>
+    <Description>Caudalimetro</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasSubtype">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2002</Reference>
+    </References>
+  </UAObjectType>
+  <UAVariable BrowseName="2:Caudalimetro" DataType="Float" NodeId="ns=1;i=2002" ParentNodeId="ns=1;i=2001">
+    <DisplayName>Caudalimetro</DisplayName>
+    <Description>Caudalimetro</Description>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=2001</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=5001</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=5002</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=5003</Reference>
+    </References>
+    <Value>
+      <Double>0.0</Double>
+    </Value>
+  </UAVariable>
+  <UAVariable BrowseName="2:Units" DataType="String" NodeId="ns=1;i=5001" ParentNodeId="ns=1;i=2002">
+    <DisplayName>Units</DisplayName>
+    <Description>Medida del caudal</Description>
+    <References>
+      
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+    </References>
+    <Value>
+      <uax:String>m3/s</uax:String>
+    </Value>
+  </UAVariable>
+  <UAVariable BrowseName="2:Estado" DataType="String" NodeId="ns=1;i=5002" ParentNodeId="ns=1;i=2002">
+    <DisplayName>Estado</DisplayName>
+    <Description>Estado del caudalimetro</Description>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+    </References>
+    <Value>
+      <uax:String>Nan</uax:String>
+    </Value>
+  </UAVariable>
+  <UAVariable BrowseName="2:Fecha" DataType="DateTime" NodeId="ns=1;i=5003" ParentNodeId="ns=1;i=2002">
+    <DisplayName>Fecha</DisplayName>
+    <Description>Fecha actual</Description>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+    </References>
+    <Value>
+      <uax:DateTime>2023-12-05T10:30:00Z</uax:DateTime>
+    </Value>
+  </UAVariable>
+</UANodeSet>
