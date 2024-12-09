@@ -57,8 +57,8 @@ def buscar_objeto(my_obj,id_obj,id_est,id_fec):
 
 #---- Metodo de cargar el excel ------#
 #Metodo para cargar el CSV, donde lo transformamos tambien a tipo diccionario
-def cargar_csv():
-	file = pd.read_csv("poyo.csv") #Cargamos el CSV en el codigo y lo guardamos en la variable
+def cargar_csv(rutaCSV):
+	file = pd.read_csv(rutaCSV) #Cargamos el CSV en el codigo y lo guardamos en la variable
 	file = dict(file) #Convertimos lo que hemos leido en diccionario
 	return file
 
@@ -66,13 +66,15 @@ def cargar_csv():
 #------Proceso ---#
 #Proceso de buscar en el diccionario, la fecha para escribir en las varaibles correspondientes
 # el valor de ese momento del excel
-def Proceso(file,var,value_client):
+def Proceso(file,var,value_client,dat_ant):
+	
 	#Buscamos el valor dentro del diccionario que hemos cargado anteriormente
 	for x in range(len(file["Fecha"])):
 		#Cuando la fecha coincide con el valor del cliente escribimos nuestros valores
 		if file["Fecha"][x]== str(value_client.replace(tzinfo=None)): 
 			try:	
 				var["Fecha"].write_value(datetime.strptime(file["Fecha"][x], "%Y-%m-%d %H:%M:%S").replace(tzinfo=None)) #Escribimos la hora obtenida del excel
+				dat_ant["FechaAnt"] = file["Fecha"][x]
 				#Si el estado que leemos de esa hora es un fallo, escribimos:
 				#	-1.0 en caudal
 				#	"FALLO" en estado
@@ -92,10 +94,11 @@ def Proceso(file,var,value_client):
 #---- Lanzamiento del conjunto ------#
 def launch():
 	#Variables
-	urlSer = "opc.tcp://0.0.0.0:4842/achu/embalse" #URL del servidor 
-	urlCli = "opc.tcp://0.0.0.0:4840/achu/horas" #URL del cliene
+	urlSer = "opc.tcp://192.168.183.5:4842/achu/embalse" #URL del servidor 
+	urlCli = "opc.tcp://192.168.183.148:4840/achu/horas" #URL del cliene
 	uri="http://www.achu.es/embalse" #URI del servidor
 	rutXlm = "nodes_caudal.xml" #Si se encuentra en la misma ruta que el codigo se queda igual
+	rutCSV = "poyo.csv" #Ruta donde se encuentra el archivo CSV
 	id_type = "ns=1;i=2001" #Id del tipo de objeto "Caudalimetro"
 	id_obj = "2:Caudalimetro" #Nombre del objeto a buscar creado
 	id_est = "2:Estado" #Nombre de la propiedad Estado del objeto Caudalimetro
@@ -111,31 +114,36 @@ def launch():
 	print("Servidor arrancado correctamente")
 
 	#CONFIGURAMOS VARIABLES : Caudal, Estado, Fecha
-	var = {}
+	var = {} #Diccionario donde se van a guardar las variables y propiedades a modificar
 	var = buscar_objeto(my_obj,id_obj,id_est,id_fec)
 	
+	#CONFIGURACION DEL EXCEL
+	#Cargar excel en el codigo y lo transformamos a diccionario para acceder mas rapido
+	file = cargar_csv(rutCSV)
+
 	#CONFIGURAMOS CLIENTE
 	#Realizamos la conexion con el cliente a la URL que le pasamos, y obtenemos el nodo de las horas
 	cliente,node = configurar_cliente(urlCli,id_nodoCli)
 	
-	#CONFIGURACION DEL EXCEL
-	#Cargar excel en el codigo y lo transformamos a diccionario para acceder mas rapido
-	file = cargar_csv()
-	
 	#Empezamos el proceso
 	try:
+		
+		#En este diccionario almacenaremos almacenaremos el que hemos escrito y el que vamos a escribir
+		#Porque si son el mismo no escribrimos
+		dat_ant= {"FechaAnt" : None} #En esta variable almacenaremos el que hemos escrito y el que vamos a escribir
 		#Bucle donde comprobamos los valores del cliente constantemente y sincronizamos con nuestro
 		# excel
 		while cliente:
 			#Obtenemos el valor de la fecha que nos proporciona el cliente
 			value_client = node.get_value()	
-			#Ejecutamos el proceso de buscar la fecha que nos sirve el cliente, para guardar en 
-			# las variables correspondiente el valor de caudal, y estado del caudalimetro en ese momento
-			Proceso(file,var,value_client)
-			#print(file["Fecha"][str(value_client.replace(tzinfo=None))])			
-			time.sleep(1.0)
-			
+			#Comprobamos que el valor que hemos escrito en el server, no coincide con el que hemos vuelto a leer del server
+			if str(dat_ant["FechaAnt"]) != str(value_client.replace(tzinfo=None)):
+				#Ejecutamos el proceso de buscar la fecha que nos sirve el cliente, para guardar en 
+				# las variables correspondiente el valor de caudal, y estado del caudalimetro en ese momento
+				Proceso(file,var,value_client,dat_ant)			
+			time.sleep(0.1)
 	finally:
+		print("Cerrando servidor")
 		servidor.stop()
 		
 
