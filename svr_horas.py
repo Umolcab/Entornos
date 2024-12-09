@@ -5,7 +5,7 @@ from asyncua.sync import Server
 #Función que se encarga de crear un servidor
 def crearSrv():
 	servidor = Server()
-	servidor.set_endpoint(("opc.tcp://0.0.0.0:4842/achu/svTemporal"))
+	servidor.set_endpoint(("opc.tcp://localhost:4840/achu/svTemporal"))
 	return servidor
 
 #-------------------------------------------------------------------------
@@ -37,7 +37,7 @@ def iniciarServicioHoras():
 	#Nodo de la variable del objeto
 	tiempo = obj.get_child("1:Fecha_y_hora")
 	#Hora de inicio de los datos
-	hora_ini = datetime(2024, 10, 28, 10, 25, 00)
+	hora_ini = datetime(2024, 10, 28, 23, 00, 00)
 	servidor.start()
 	try:
 		hora = hora_ini
@@ -45,7 +45,7 @@ def iniciarServicioHoras():
 		while True:
 			hora += timedelta(minutes=5.0)
 			tiempo.write_value(hora)
-			time.sleep(1)
+			time.sleep(0.3)
 			#Si la hora es la última que aparece en los datos finaliza el servidor
 			if hora == datetime(2024, 11, 1, 10, 25, 00):
 				break

@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<UANodeSet xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
+  <NamespaceUris>
+    <Uri>http://www.achu.es/integracion</Uri>
+  </NamespaceUris>
+  <UAObjectType BrowseName="1:Integracion" NodeId="ns=1;i=3001">
+    <DisplayName>Integracion</DisplayName>
+    <References>
+      <Reference IsForward="false" ReferenceType="HasSubtype">i=58</Reference>
+    </References>
+  </UAObjectType>
+  <UAVariable BrowseName="1:Caudal" DataType="Float" NodeId="ns=1;i=3002" ParentNodeId="ns=1;i=3001">
+    <DisplayName>Caudal</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable BrowseName="1:Precipitacion" DataType="Float" NodeId="ns=1;i=3003" ParentNodeId="ns=1;i=3001">
+    <DisplayName>Precipitacion</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable BrowseName="1:Estado" DataType="String" NodeId="ns=1;i=3004" ParentNodeId="ns=1;i=3001">
+    <DisplayName>Estado</DisplayName>
+    <References>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+</UANodeSet>

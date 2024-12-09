@@ -96,6 +96,7 @@ def waitSyncDate(value, nodeHoras, seg):
 		#Actualiza la hora del server de horas, \ = splitLine
 		value_client = nodeHoras.get_value()\
 			.replace(tzinfo=None)
+		print(f"AAAAAA - {value} - {value_client}")
 
 
 #---------------------------------------------------------------
