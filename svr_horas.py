@@ -5,7 +5,7 @@ from asyncua.sync import Server
 #Función que se encarga de crear un servidor
 def crearSrv():
 	servidor = Server()
-	servidor.set_endpoint(("opc.tcp://0.0.0.0:4842/achu/svTemporal"))
+	servidor.set_endpoint(("opc.tcp://0.0.0.0:4840/achu/svTemporal"))
 	return servidor
 
 #-------------------------------------------------------------------------
