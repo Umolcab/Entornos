@@ -1,30 +1,62 @@
 <?xml version='1.0' encoding='utf-8'?>
-<UANodeSet xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
+<UANodeSet xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <NamespaceUris>
     <Uri>http://www.achu.es/integracion</Uri>
   </NamespaceUris>
+  <Aliases>
+    <Alias Alias="HasModellingRule">i=37</Alias>
+    <Alias Alias="Float">i=10</Alias>
+    <Alias Alias="HasTypeDefinition">i=40</Alias>
+    <Alias Alias="HasSubtype">i=45</Alias>
+    <Alias Alias="HasComponent">i=47</Alias>
+    <Alias Alias="DateTime">i=13</Alias>
+    <Alias Alias="String">i=12</Alias>
+  </Aliases>
   <UAObjectType BrowseName="1:Integracion" NodeId="ns=1;i=3001">
     <DisplayName>Integracion</DisplayName>
+    <Description>Objeto de integración que combina datos de caudal y precipitación</Description>
     <References>
       <Reference IsForward="false" ReferenceType="HasSubtype">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=3002</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=3003</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=3004</Reference>
     </References>
   </UAObjectType>
   <UAVariable BrowseName="1:Caudal" DataType="Float" NodeId="ns=1;i=3002" ParentNodeId="ns=1;i=3001">
     <DisplayName>Caudal</DisplayName>
+    <Description>Valor del caudal en m³/s</Description>
     <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=3001</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
     </References>
+    <Value>
+      <uax:Double>0.0</uax:Double>
+    </Value>
   </UAVariable>
   <UAVariable BrowseName="1:Precipitacion" DataType="Float" NodeId="ns=1;i=3003" ParentNodeId="ns=1;i=3001">
     <DisplayName>Precipitacion</DisplayName>
+    <Description>Valor de la precipitación en mm/h</Description>
     <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=3001</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
     </References>
+    <Value>
+      <uax:Double>0.0</uax:Double>
+    </Value>
   </UAVariable>
   <UAVariable BrowseName="1:Estado" DataType="String" NodeId="ns=1;i=3004" ParentNodeId="ns=1;i=3001">
     <DisplayName>Estado</DisplayName>
+    <Description>Estado del sistema (Alerta o No Alerta)</Description>
     <References>
+      <Reference IsForward="false" ReferenceType="HasComponent">ns=1;i=3001</Reference>
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
     </References>
+    <Value>
+      <uax:String>No Alerta</uax:String>
+    </Value>
   </UAVariable>
 </UANodeSet>
+

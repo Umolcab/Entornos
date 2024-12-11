@@ -2,6 +2,10 @@ import time
 from asyncua.sync import Server, Client
 from datetime import datetime
 
+#Autor: Herminio Navarro Murcia
+
+#---- Metodos de conexion cliente ------#
+
 # Conexión a un cliente existente
 def conectar_cliente(url):
     cliente = Client(url)
@@ -12,22 +16,28 @@ def conectar_cliente(url):
         print(f"Error al conectar con {url}: {e}")
         return None
 
-# Obtiene el valor de un nodo en un cliente
+# Se procura la obtención del valor del nodo del servidor cliente:
 def obtener_valor_cliente(cliente, node_id):
     nodo = cliente.get_node(node_id)
     return nodo.get_value()
 
-# Configura el servidor de integración
+# Se realiza la configuración del servidor de integración
 def configurar_servidor():
     servidor = Server()
-    servidor.set_endpoint("opc.tcp://localhost:4843/achu/integracion")
+    servidor.set_endpoint(("opc.tcp://localhost:4843/achu/integracion"))
     servidor.import_xml("nodes_integration.xml")
+    print("Archivo XML de nodos cargado correctamente.")
     idx = servidor.register_namespace("http://www.achu.es/integracion")
     return servidor, idx
 
+# Inspección de nodos en el espacio de direcciones
+    print("Nodos disponibles en el espacio de direcciones:")
+    for node in servidor.nodes.objects.get_children():
+        print(f"Node: {node}, BrowseName: {node.get_browse_name()}")
+
 # Lógica de cálculo del estado de alerta
 def calcular_estado(precipitacion, caudal):
-    if precipitacion > 50.0 and caudal > 150.0:
+    if precipitacion > 50.0 and (caudal > 150.0 or caudal == -1.0):
         return "Alerta"
     return "No Alerta"
 
@@ -41,10 +51,11 @@ def main():
 
     # Configuración del servidor de integración
     servidor, idx = configurar_servidor()
-    obj = servidor.nodes.objects.add_object(idx, "SistemaIntegrado", servidor.get_node("ns=1;i=3001"))
-    var_caudal = obj.get_child("1:Caudal")
-    var_precipitacion = obj.get_child("1:Precipitacion")
-    var_estado = obj.get_child("1:Estado")
+
+    obj = servidor.nodes.objects.add_object(idx, "SistemaIntegrado")
+    var_caudal = obj.add_variable(idx, "Caudal", 0.0)
+    var_precipitacion = obj.add_variable(idx, "Precipitacion", 0.0)
+    var_estado = obj.add_variable(idx, "Estado", "No Alerta")
     
     servidor.start()
     print("Servidor de integración iniciado.")
@@ -74,7 +85,9 @@ def main():
         servidor.stop()
         print("Servidor detenido.")
 
+#---------------------------------------------------------------
+
 if __name__ == "__main__":
-    main()
+	main()
 
 
