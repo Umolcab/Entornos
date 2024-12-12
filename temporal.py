@@ -22,7 +22,7 @@ def nuevoObj(servidor, idx, nombre, tipo):
 
 #-------------------------------------------------------------------------
 #Función que se encarga de iniciar el servicio de horas
-def iniciarServicioHoras():
+def iniciarServicioTemp():
 	#Asignación de las variables para la creación del servidor
 	nombre = "objTemporal"
 	tipo = "ns=1;i=2001"
@@ -54,4 +54,4 @@ def iniciarServicioHoras():
 		servidor.stop()
 
 if __name__ == "__main__":
-	iniciarServicioHoras()
+	iniciarServicioTemp()
