@@ -5,13 +5,13 @@ from asyncua.sync import Server
 #Función que se encarga de crear un servidor
 def crearSrv():
 	servidor = Server()
-	servidor.set_endpoint(("opc.tcp://0.0.0.0:4840/achu/svTemporal"))
+	servidor.set_endpoint(("opc.tcp://0.0.0.0:4840/achu/Temporal"))
 	return servidor
 
 #-------------------------------------------------------------------------
 #Función que se encarga de darle un namespace
 def setNamespace(servidor):
-	uri="http://www.achu.es/srvtemporal"
+	uri="http://www.achu.es/temporal"
 	idx=servidor.register_namespace(uri)
 	return idx
 
