@@ -17,17 +17,21 @@ def conectar_cliente(url):
         cliente_horas.connect()  # Realizamos la conexion
         return cliente_horas
     except:
+        time.sleep(1.0)
         print("Problemas con la conexion del cliente")
+        
 
 # Metodo que hace la configuracion final, la conexion con el cliente
 # y obtener el nodo para poder acceder a la variable de las horas del server
 def configurar_cliente(url, node_id):
-    cliente_horas = conectar_cliente(url)  # Creamos la conexion con el cliente
+    cliente_horas = None
+    while not cliente_horas :
+        cliente_horas = conectar_cliente(url)  # Creamos la conexion con el cliente  
     node = cliente_horas.get_node(node_id)  # Obtenemos el nodo de las horas que nos da el cliente
     return cliente_horas, node
 
 
-# ---- Metodos de creación del server ------#
+# ---- Metodos de creacion del server ------#
 
 # Este metodo crear un servidor en la url pasada a la funcion, e importa
 # el tipo de datos Caudalimetro que le pasamos en la ruta
@@ -98,13 +102,17 @@ class SubHandler:
         self.file = file
         self.var = var
         self.node2 = node2
+        self.dis_cli = False #Variable que cuando se desconecta el cliente detenemos el codigo
 
     #Funcion que incorporamos a la clase para que cuando haya un cambio la llame, ya que es una funcion que cuando se recibe un cambio
     # se llama automaticamente 
     def datachange_notification(self, node, val, attr):
         print(f"Cambio detectado en el cliente: {val}")
         Proceso(self.file, self.var,  val) #Cuando tenemos un nuevo valor, llamamos a la funcion proceos que escribira los valores
-
+    
+    def status_change_notification(self, status):
+        print(f"Cliente desconectado")
+        self.dis_cli = True
 
 # ---- Lanzamiento del conjunto ------#
 def launch():
@@ -149,7 +157,7 @@ def launch():
 
     try:
         print("Servidor y cliente configurados. Esperando cambios...")
-        while cliente:
+        while handler.dis_cli == False :
             time.sleep(1) #Mantenemos el servidor conectado
     except ConnectionError as e:
         print(f"Se perdio la conexion con el cliente: {e}")
