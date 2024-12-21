@@ -5,7 +5,7 @@ from asyncua.sync import Server
 #Función que se encarga de crear un servidor
 def crearSrv():
 	servidor = Server()
-	servidor.set_endpoint(("opc.tcp://0.0.0.0:4840/achu/Temporal"))
+	servidor.set_endpoint(("opc.tcp://localhost:4840/achu/Temporal"))
 	return servidor
 
 #-------------------------------------------------------------------------
@@ -31,7 +31,7 @@ def iniciarServicioTemp():
 	#Asignaciónd el namespace
 	idx = setNamespace(servidor)
 	#Carga de los nodos desde el .xml
-	servidor.import_xml("nodes.xml")
+	servidor.import_xml("nodes_temp.xml")
 	#Nodo del objeto para poder acceder a las variables
 	obj = nuevoObj(servidor, idx, nombre, tipo)
 	#Nodo de la variable del objeto

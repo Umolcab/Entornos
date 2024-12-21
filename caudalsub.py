@@ -117,8 +117,8 @@ class SubHandler:
 # ---- Lanzamiento del conjunto ------#
 def launch():
     # Variables
-    urlSer = "opc.tcp://0.0.0.0:4842/achu/embalse" #URL del servidor
-    urlCli = "opc.tcp://0.0.0.0:4840/achu/horas" #URL del cliene
+    urlSer = "opc.tcp://localhost:4842/achu/embalse" #URL del servidor
+    urlCli = "opc.tcp://localhost:4840/achu/temporal" #URL del cliene
     uri = "http://www.achu.es/embalse" #URI del servidor
     rutXlm = "nodes_caudal.xml" #Si se encuentra en la misma ruta que el codigo se queda igual
     rutCSV = "poyo.csv"#Ruta donde se encuentra el archivo CSV
