@@ -47,7 +47,7 @@ def iniciarServicioTemp():
 			tiempo.write_value(hora)
 			time.sleep(1)
 			#Si la hora es la última que aparece en los datos finaliza el servidor
-			if hora == datetime(2024, 11, 1, 10, 25, 00):
+			if hora >= datetime(2024, 11, 1, 10, 25, 00):
 				break
 
 	finally:
