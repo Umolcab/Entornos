@@ -1,6 +1,6 @@
 import time
 from datetime import datetime, timedelta
-from asyncua.sync import Server
+from asyncua.sync import Server, ua
 
 #Función que se encarga de crear un servidor
 def crearSrv():
@@ -36,6 +36,9 @@ def iniciarServicioTemp():
 	obj = nuevoObj(servidor, idx, nombre, tipo)
 	#Nodo de la variable del objeto
 	tiempo = obj.get_child("1:Fecha_y_hora")
+	tiempo.set_writable()
+	t_pub = obj.get_child("2:T_Publicacion")
+	t_pub.set_writable()
 	#Hora de inicio de los datos
 	hora_ini = datetime(2024, 10, 28, 10, 25, 00)
 	servidor.start()
@@ -43,9 +46,10 @@ def iniciarServicioTemp():
 		hora = hora_ini
 		#Bucle que se encarga de ir incrementado la hora en 5 minutos y las publica cada segundo. 
 		while True:
+			print(hora)
 			hora += timedelta(minutes=5.0)
 			tiempo.write_value(hora)
-			time.sleep(1)
+			time.sleep(t_pub.read_value())
 			#Si la hora es la última que aparece en los datos finaliza el servidor
 			if hora >= datetime(2024, 11, 1, 10, 25, 00):
 				break
