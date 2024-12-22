@@ -31,7 +31,7 @@ def iniciarServicioTemp():
 	#Asignaciónd el namespace
 	idx = setNamespace(servidor)
 	#Carga de los nodos desde el .xml
-	servidor.import_xml("nodes.xml")
+	servidor.import_xml("nodes_temp.xml")
 	#Nodo del objeto para poder acceder a las variables
 	obj = nuevoObj(servidor, idx, nombre, tipo)
 	#Nodo de la variable del objeto
